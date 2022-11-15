@@ -203,8 +203,7 @@ typ = Entry(
     bg="#d9d9d9",
     highlightthickness=0,
     font='halvetica 12')
-typ.insert(tkinter.END, "")
-typ.grid()
+
 
 # datatyp menu
 clicked = StringVar()
@@ -218,8 +217,8 @@ def show(choice):
 
 
 # vytvoření dropdown menu
-drop = OptionMenu(root, clicked, *nákupy, command=show)
-drop.grid(row=4, column=1)
+#drop = OptionMenu(root, clicked, *nákupy, command=show)
+#drop.grid(row=4, column=1)
 
 
 # Vytvoření barevného zobrazení záznamu podle toho ke kterému typu výdaje spadají
@@ -257,8 +256,10 @@ produkt = Entry(root, width=30)
 produkt.grid(row=1, column=1, padx=20)
 cena = Entry(root, width=30)
 cena.grid(row=2, column=1, padx=20)
-typ = Entry(root, width=30)
-typ.grid(row=3, column=1, padx=20)
+drop = OptionMenu(root, clicked, *nákupy, command=show)
+drop.grid(row=3, column=1)
+#typ = Entry(root, width=30)
+#typ.grid(row=3, column=1, padx=20)
 datum = DateEntry(root, date_pattern='mm/dd/y', width=12, background="darkblue", foreground="white", borderwidth=2)
 datum.grid(row=5, column=1)
 delete_box = Entry(root, width=30)
