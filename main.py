@@ -7,7 +7,7 @@ from tkcalendar import *
 # Vytvoření  okna a pojmenování
 root = Tk()
 root.title("Kalendář s výdaji")
-root.geometry("800x600")
+root.geometry("900x600")
 
 # Vytvoření a napojení databáze
 conn = sqlite3.connect("expensses_book.db")
@@ -184,6 +184,22 @@ def query():
     conn.close()
 
 
+def celkem():
+    # Připojení do databáze
+    conn = sqlite3.connect("expensses_book.db")
+    # Vytvoření kurzoru
+    c = conn.cursor()
+    sum_celkem = "select sum(cena) from expensses"
+    c.execute(sum_celkem)
+    r = (c.fetchone()[0])
+    celkem_label = Label(root, text=str(r) + " Kč")
+    celkem_label.grid(row=19, column=7)
+    # Aplikace změn
+    conn.commit()
+    # Zavření databáze
+    conn.close()
+
+
 
 # nadefinování typů nákupu
 nákupy = [
@@ -265,6 +281,7 @@ datum.grid(row=5, column=1)
 delete_box = Entry(root, width=30)
 delete_box.grid(row=9, column=1, pady=5)
 
+
 # Vytvoření tlačítka
 # typ_button = Entry(root, text = "Vyber typ")
 # typ_button.grid(row=4, column=1, padx=20)
@@ -303,6 +320,10 @@ delete_button.grid(row=10, column=0, columnspan=2, pady=10, padx=10, ipadx=137)
 edit_button = Button(root, text="Upravit záznam o výdaji", command=edit)
 edit_button.grid(row=11, column=0, columnspan=2, pady=10, padx=10, ipadx=134)
 
+# Vytvoření tlačítka pro výpočet útraty
+celkem_button = Button(root, text="Vypočítat celkové výdaje", command=celkem)
+celkem_button.grid(row=6, column=6, columnspan=2, pady=10, padx=10, ipadx=134)
+
 # Aplikace změn
 conn.commit()
 
@@ -317,12 +338,6 @@ conn.close()
 T = Text(root, height=1, width=10)
 
 # Create label-------------------------------------------------------------
-def celkova_utr():
-    r = data.fetchRecord(query="Select sum(cena) from expensses_book")
-    for i in r:
-        for j in i:
-
-
 l = Label(root, text="Celkem utraceno:")
 l.config(font=("Courier", 12))
 
@@ -330,8 +345,8 @@ Celkova_utrata="""
 celková"""
 
 l.grid(row=19,column=6)
-T.insert(END, Celkova_utrata)
-T.grid(row=19, column=7)
+#T.insert(END, Celkova_utrata)
+#T.grid(row=19, column=7)
 
 #Útrata za jídlo -------------------------------------------------------------
 V = Text(root, height=1, width=6)
