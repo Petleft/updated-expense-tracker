@@ -189,11 +189,28 @@ def celkem():
     conn = sqlite3.connect("expensses_book.db")
     # Vytvoření kurzoru
     c = conn.cursor()
+    #celkem výpočet
     sum_celkem = "select sum(cena) from expensses"
     c.execute(sum_celkem)
     r = (c.fetchone()[0])
     celkem_label = Label(root, text=str(r) + " Kč")
     celkem_label.grid(row=19, column=7)
+
+    #výpočet pro Jídlo
+
+    #výpočet pro Oblečení
+
+    #Výpočet pro elektroniku
+
+    #Výpočet pro Zahradu
+
+    #Výpočet pro dovolenou
+
+    #Výpočet pro zábavu
+
+
+
+
     # Aplikace změn
     conn.commit()
     # Zavření databáze
