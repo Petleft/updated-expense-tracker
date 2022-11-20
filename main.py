@@ -7,7 +7,7 @@ from tkcalendar import *
 # Vytvoření  okna a pojmenování
 root = Tk()
 root.title("Kalendář s výdaji")
-root.geometry("600x600")
+root.geometry("800x600")
 
 # Vytvoření a napojení databáze
 conn = sqlite3.connect("expensses_book.db")
@@ -308,6 +308,116 @@ conn.commit()
 
 # Zavření databáze
 conn.close()
+
+
+
+
+# Popisy pro upřesnění součtu útrat
+#celková útrata
+T = Text(root, height=1, width=10)
+
+# Create label-------------------------------------------------------------
+def celkova_utr():
+    r = data.fetchRecord(query="Select sum(cena) from expensses_book")
+    for i in r:
+        for j in i:
+
+
+l = Label(root, text="Celkem utraceno:")
+l.config(font=("Courier", 12))
+
+Celkova_utrata="""
+celková"""
+
+l.grid(row=19,column=6)
+T.insert(END, Celkova_utrata)
+T.grid(row=19, column=7)
+
+#Útrata za jídlo -------------------------------------------------------------
+V = Text(root, height=1, width=6)
+
+# Create label
+l = Label(root, text="Jídlo:")
+l.config(font=("Courier", 12))
+
+Jídlo_útrata = """útrata"""
+l.grid(row=13,column=6)
+V.insert(END, Jídlo_útrata)
+V.grid(row=13, column=7)
+
+#Útrata za oblečení -------------------------------------------------------------
+A = Text(root, height=1, width=6)
+
+# Create label
+l = Label(root, text="Oblečení:")
+l.config(font=("Courier", 12))
+
+Oblečení_útrata = """útrata"""
+l.grid(row=14,column=6)
+A.insert(END, Oblečení_útrata)
+A.grid(row=14, column=7)
+
+#Útrata za elektroniku -------------------------------------------------------------
+B = Text(root, height=1, width=6)
+
+# Create label
+l = Label(root, text="Elektronika:")
+l.config(font=("Courier", 12))
+
+Elektronika_útrata = """útrata"""
+l.grid(row=15,column=6)
+B.insert(END, Elektronika_útrata)
+B.grid(row=15, column=7)
+
+#Útrata za zábavu -------------------------------------------------------------
+C = Text(root, height=1, width=6)
+
+# Create label
+l = Label(root, text="Zábava:")
+l.config(font=("Courier", 12))
+
+Zábava_útrata = """útrata"""
+l.grid(row=16,column=6)
+C.insert(END, Zábava_útrata)
+C.grid(row=16, column=7)
+
+#Útrata za dovolenou -------------------------------------------------------------
+D = Text(root, height=1, width=6)
+
+# Create label
+l = Label(root, text="Dovolená:")
+l.config(font=("Courier", 12))
+
+Dovolená_útrata = """útrata"""
+l.grid(row=17, column=6)
+D.insert(END, Dovolená_útrata)
+D.grid(row=17, column=7)
+
+#Útrata za zahradu -------------------------------------------------------------
+E = Text(root, height=1, width=6)
+
+# Create label
+l = Label(root, text="Jídlo:")
+l.config(font=("Courier", 12))
+
+Zahrada_útrata = """útrata"""
+l.grid(row=18,column=6)
+E.insert(END, Zahrada_útrata)
+E.grid(row=18, column=7)
+
+#Útrata hlavní nadpis -------------------------------------------------------------
+F = Text(root, height=1, width=6)
+
+# Create label
+l = Label(root, text="Výše útraty ve vybraném období:")
+l.config(font=("Courier", 12))
+
+
+
+
+
+
+
 
 root.mainloop()
 
