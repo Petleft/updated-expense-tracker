@@ -7,7 +7,7 @@ from tkcalendar import *
 # Vytvoření  okna a pojmenování
 root = Tk()
 root.title("Kalendář s výdaji")
-root.geometry("600x600")
+root.geometry("900x600")
 
 # Vytvoření a napojení databáze
 conn = sqlite3.connect("expensses_book.db")
@@ -184,6 +184,100 @@ def query():
     conn.close()
 
 
+def celkem():
+    # Připojení do databáze
+    conn = sqlite3.connect("expensses_book.db")
+    # Vytvoření kurzoru
+    c = conn.cursor()
+    #celkem výpočet
+    sum_celkem = "select sum(cena) from expensses"
+    c.execute(sum_celkem)
+    r = (c.fetchone()[0])
+    if r == None:
+        celkem_label = Label(root, text="0 Kč")
+        celkem_label.grid(row=19, column=7)
+    else:
+        celkem_label = Label(root, text=str(r) + " Kč")
+        celkem_label.grid(row=19, column=7)
+
+    #výpočet pro Jídlo
+    sum_celkem1 = "select sum(cena) from expensses WHERE typ_produktu == 'Jídlo' "
+    c.execute(sum_celkem1)
+    t = (c.fetchone()[0])
+    if t == None:
+        celkem_jídlo_label = Label(root, text="0 Kč")
+        celkem_jídlo_label.grid(row=13, column=7)
+    else:
+        celkem_jídlo_label = Label(root, text=str(t) + " Kč")
+        celkem_jídlo_label.grid(row=13, column=7)
+
+
+    #výpočet pro Oblečení
+    sum_celkem2 = "select sum(cena) from expensses WHERE typ_produktu == 'Oblečení' "
+    c.execute(sum_celkem2)
+    z = (c.fetchone()[0])
+    if z == None:
+        celkem_obleceni_label = Label(root, text="0 Kč")
+        celkem_obleceni_label.grid(row=14, column=7)
+    else:
+        celkem_oblecení_label = Label(root, text=str(z) + " Kč")
+        celkem_oblecení_label.grid(row=14, column=7)
+
+
+    #Výpočet pro elektroniku
+    sum_celkem3 = "select sum(cena) from expensses WHERE typ_produktu == 'Elektronika' "
+    c.execute(sum_celkem3)
+    u = (c.fetchone()[0])
+    if u == None:
+        celkem_elektronika_label = Label(root, text="0 Kč")
+        celkem_elektronika_label.grid(row=15, column=7)
+    else:
+        celkem_elektronika_label = Label(root, text=str(u) + " Kč")
+        celkem_elektronika_label.grid(row=15, column=7)
+
+
+    #Výpočet pro Zahradu
+    sum_celkem4 = "select sum(cena) from expensses WHERE typ_produktu == 'Zahrada' "
+    c.execute(sum_celkem4)
+    i = (c.fetchone()[0])
+    if i == None:
+        celkem_zahrada_label = Label(root, text="0 Kč")
+        celkem_zahrada_label.grid(row=18, column=7)
+    else:
+        celkem_zahrada_label = Label(root, text=str(i) + " Kč")
+        celkem_zahrada_label.grid(row=18, column=7)
+
+
+    #Výpočet pro dovolenou
+    sum_celkem5 = "select sum(cena) from expensses WHERE typ_produktu == 'Dovolená' "
+    c.execute(sum_celkem5)
+    o = (c.fetchone()[0])
+    if o == None:
+        celkem_dovolena_label = Label(root, text="0 Kč")
+        celkem_dovolena_label.grid(row=17, column=7)
+    else:
+        celkem_dovolena_label = Label(root, text=str(0) + " Kč")
+        celkem_dovolena_label.grid(row=17, column=7)
+
+    #Výpočet pro zábavu
+    sum_celkem6 = "select sum(cena) from expensses WHERE typ_produktu == 'Zábava' "
+    c.execute(sum_celkem6)
+    p = (c.fetchone()[0])
+    if p == None:
+        celkem_zabava_label = Label(root, text="0 Kč")
+        celkem_zabava_label.grid(row=16, column=7)
+    else:
+        celkem_zabava_label = Label(root, text=str(p) + " Kč")
+        celkem_zabava_label.grid(row=16, column=7)
+
+
+
+    # Aplikace změn
+    conn.commit()
+    # Zavření databáze
+    conn.close()
+
+
 
 # nadefinování typů nákupu
 nákupy = [
@@ -265,6 +359,7 @@ datum.grid(row=5, column=1)
 delete_box = Entry(root, width=30)
 delete_box.grid(row=9, column=1, pady=5)
 
+
 # Vytvoření tlačítka
 # typ_button = Entry(root, text = "Vyber typ")
 # typ_button.grid(row=4, column=1, padx=20)
@@ -303,11 +398,119 @@ delete_button.grid(row=10, column=0, columnspan=2, pady=10, padx=10, ipadx=137)
 edit_button = Button(root, text="Upravit záznam o výdaji", command=edit)
 edit_button.grid(row=11, column=0, columnspan=2, pady=10, padx=10, ipadx=134)
 
+# Vytvoření tlačítka pro výpočet útraty
+celkem_button = Button(root, text="Vypočítat celkové výdaje", command=celkem)
+celkem_button.grid(row=6, column=6, columnspan=2, pady=10, padx=10, ipadx=134)
+
 # Aplikace změn
 conn.commit()
 
 # Zavření databáze
 conn.close()
+
+
+
+
+# Popisy pro upřesnění součtu útrat
+#celková útrata
+T = Text(root, height=1, width=10)
+
+# Create label-------------------------------------------------------------
+l = Label(root, text="Celkem utraceno:")
+l.config(font=("Courier", 12))
+
+Celkova_utrata="""
+celková"""
+
+l.grid(row=19,column=6)
+#T.insert(END, Celkova_utrata)
+#T.grid(row=19, column=7)
+
+#Útrata za jídlo -------------------------------------------------------------
+V = Text(root, height=1, width=6)
+
+# Create label
+l = Label(root, text="Jídlo:")
+l.config(font=("Courier", 12))
+
+Jídlo_útrata = """útrata"""
+l.grid(row=13,column=6)
+#V.insert(END, Jídlo_útrata)
+#V.grid(row=13, column=7)
+
+#Útrata za oblečení -------------------------------------------------------------
+A = Text(root, height=1, width=6)
+
+# Create label
+l = Label(root, text="Oblečení:")
+l.config(font=("Courier", 12))
+
+Oblečení_útrata = """útrata"""
+l.grid(row=14,column=6)
+#A.insert(END, Oblečení_útrata)
+#A.grid(row=14, column=7)
+
+#Útrata za elektroniku -------------------------------------------------------------
+B = Text(root, height=1, width=6)
+
+# Create label
+l = Label(root, text="Elektronika:")
+l.config(font=("Courier", 12))
+
+Elektronika_útrata = """útrata"""
+l.grid(row=15,column=6)
+#B.insert(END, Elektronika_útrata)
+#B.grid(row=15, column=7)
+
+#Útrata za zábavu -------------------------------------------------------------
+C = Text(root, height=1, width=6)
+
+# Create label
+l = Label(root, text="Zábava:")
+l.config(font=("Courier", 12))
+
+Zábava_útrata = """útrata"""
+l.grid(row=16,column=6)
+#C.insert(END, Zábava_útrata)
+#C.grid(row=16, column=7)
+
+#Útrata za dovolenou -------------------------------------------------------------
+D = Text(root, height=1, width=6)
+
+# Create label
+l = Label(root, text="Dovolená:")
+l.config(font=("Courier", 12))
+
+Dovolená_útrata = """útrata"""
+l.grid(row=17, column=6)
+#D.insert(END, Dovolená_útrata)
+#D.grid(row=17, column=7)
+
+#Útrata za zahradu -------------------------------------------------------------
+E = Text(root, height=1, width=6)
+
+# Create label
+l = Label(root, text="Zahrada:")
+l.config(font=("Courier", 12))
+
+Zahrada_útrata = """útrata"""
+l.grid(row=18,column=6)
+#E.insert(END, Zahrada_útrata)
+#E.grid(row=18, column=7)
+
+#Útrata hlavní nadpis -------------------------------------------------------------
+F = Text(root, height=1, width=6)
+
+# Create label
+l = Label(root, text="Výše útraty ve vybraném období:")
+l.config(font=("Courier", 12))
+
+
+
+
+
+
+
 
 root.mainloop()
 
